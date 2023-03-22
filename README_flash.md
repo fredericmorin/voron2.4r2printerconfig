@@ -160,3 +160,9 @@ python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -q
 #  Detected UUID: xxxxxxxxxxxx, Application: Klipper
 #  Query Complete
 ```
+
+## References and Userful Links
+
+- https://github.com/akhamar/voron_canbus_octopus_sb2040#useful-tricks-to-be-able-to-update-an-octopus-11-in-usb-to-can-bridge
+- https://www.teamfdm.com/forums/topic/851-install-canboot-on-sb2040/#comment-5785
+- https://gist.github.com/jfryman/0c3827079e23d7bc55f9677d2c6b8bec
