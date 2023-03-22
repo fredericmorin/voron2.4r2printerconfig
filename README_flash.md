@@ -17,6 +17,8 @@ Firmware:
 ## CanBoot on Octopus v1.1
 
 ```sh
+sudo systemctl stop klipper
+
 git clone https://github.com/Arksine/CanBoot ~/CanBoot
 cd ~/CanBoot
 make menuconfig
@@ -51,6 +53,8 @@ sudo dfu-util -a 0 -D ~/CanBoot/out/canboot.bin  --dfuse-address 0x08000000:forc
 ## Klipper on Octopus v1.1
 
 ```sh
+sudo systemctl stop klipper
+
 # skip git clone on mainsailOS
 cd ~/klipper
 ~/klippy-env/bin/python scripts/make_version.py `hostname`
@@ -87,6 +91,8 @@ python3 ~/CanBoot/scripts/flash_can.py -i can0 -q
 ## CanBoot on EBB SB2209
 
 ```sh
+sudo systemctl stop klipper
+
 git clone https://github.com/Arksine/CanBoot ~/CanBoot-ebb
 cd ~/CanBoot-ebb
 make menuconfig
@@ -130,6 +136,8 @@ python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -q
 ## Klipper on EBB SB2209
 
 ```sh
+sudo systemctl stop klipper
+
 git clone https://github.com/Klipper3d/klipper.git ~/klipper-ebb
 cd ~/klipper-ebb
 ~/klippy-env/bin/python scripts/make_version.py `hostname`
