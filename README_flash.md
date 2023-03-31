@@ -34,7 +34,7 @@ make menuconfig
 #  [*] Support bootloader entry on rapid double click of reset button
 #  [ ] Enable bootloader entry on button (or gpio) state
 #  [ ] Enable Status LED
-make -j6
+make -j4
 ```
 
 Flash to octopus. Had a hard time enabling DFU mode on octopus. 
@@ -71,12 +71,13 @@ make menuconfig
 #      USB ids  --->
 #  (500000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
+make -j4
 python3 ~/CanBoot/scripts/flash_can.py -d /dev/serial/by-id/usb-CanBoot_stm32f446xx* -f ~/klipper/out/klipper.bin
 sudo tee /etc/network/interfaces.d/can0 <<EOF
 allow-hotplug can0
 iface can0 can static
     bitrate 500000
-    up ifconfig $IFACE txqueuelen 1024
+    up ifconfig \$IFACE txqueuelen 1024
     pre-up ip link set can0 type can bitrate 500000
     pre-up ip link set can0 txqueuelen 1024
 EOF
@@ -109,7 +110,7 @@ make menuconfig
 #  [ ] Enable bootloader entry on button (or gpio) state
 #  [*] Enable Status LED
 #  (PA13)  Status LED GPIO Pin
-make -j6
+make -j4
 ```
 
 Hook up EB2209 to your printer:
@@ -152,6 +153,7 @@ make menuconfig
 #      Communication interface (CAN bus (on PB0/PB1))  --->
 #  (500000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
+make -j4
 python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
 python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
