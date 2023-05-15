@@ -4,6 +4,8 @@ Printer hardware:
 - BTT octopus v1.1
 - BTT EBB SB2209 v1.0
 
+
+
 # Firmware strategy
 
 Use Octopus as can bridge to can network
@@ -13,6 +15,10 @@ Firmware:
 - Canboot can on ebb
 - Klipper usb to can on octopus
 - Klipper can on ebb
+
+
+
+# First Flash
 
 ## CanBoot on Octopus v1.1
 
@@ -168,3 +174,35 @@ python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -q
 - https://github.com/akhamar/voron_canbus_octopus_sb2040#useful-tricks-to-be-able-to-update-an-octopus-11-in-usb-to-can-bridge
 - https://www.teamfdm.com/forums/topic/851-install-canboot-on-sb2040/#comment-5785
 - https://gist.github.com/jfryman/0c3827079e23d7bc55f9677d2c6b8bec
+
+
+
+# Update Firmware
+
+## Klipper on EBB SB2209
+
+```sh
+cd ~/klipper-ebb/
+git pull
+make olddefconfig
+make -j4
+
+sudo systemctl stop klipper
+python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
+sudo systemctl start klipper
+```
+
+## Klipper on Octopus v1.1
+
+```sh
+cd ~/klipper/
+git pull
+make olddefconfig
+make -j4
+
+sudo systemctl stop klipper
+python3 ~/CanBoot/scripts/flash_can.py -d /dev/serial/by-id/usb-CanBoot_stm32f446xx* -f ~/klipper/out/klipper.bin
+sudo systemctl start klipper
+```
+
+
