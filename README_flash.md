@@ -43,13 +43,13 @@ make menuconfig
 make -j4
 ```
 
-Flash to octopus. Had a hard time enabling DFU mode on octopus. 
-Supposedly you have to put jumper on boot0 and power cycle board 
+Flash to octopus. Had a hard time enabling DFU mode on octopus.
+Supposedly you have to put jumper on boot0 and power cycle board
 while keeping usb connection alive.
 
 Finally got it to work using a stlink/v2 connected to SWD and spamming
 `st-flash erase` while releasing the octopus reset button just at the right moment.
-Only after that did DFU work. 
+Only after that did DFU work.
 
 Once you get DFU to work:
 ```sh
@@ -188,7 +188,8 @@ make olddefconfig
 make -j4
 
 sudo systemctl stop klipper
-python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
+python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -r
+python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -f ~/klipper-ebb/out/klipper.bin
 sudo systemctl start klipper
 ```
 
@@ -201,6 +202,7 @@ make olddefconfig
 make -j4
 
 sudo systemctl stop klipper
+python3 ~/CanBoot/scripts/flash_can.py -i can0 -u 3c57b3d9e9aa -r
 python3 ~/CanBoot/scripts/flash_can.py -d /dev/serial/by-id/usb-CanBoot_stm32f446xx* -f ~/klipper/out/klipper.bin
 sudo systemctl start klipper
 ```
