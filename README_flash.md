@@ -17,6 +17,14 @@ Firmware:
 - Klipper can on ebb
 
 
+# Install
+```sh
+git clone https://github.com/Klipper3d/klipper klipper-ebb
+ln -s ~/printer_data/config/config/klipper_config      ~/klipper/.config
+ln -s ~/printer_data/config/config/klipper-ebb_config  ~/klipper-ebb/.config
+```
+
+
 
 # First Flash
 
@@ -79,6 +87,8 @@ make menuconfig
 #  ()  GPIO pins to set at micro-controller startup
 make -j4
 python3 ~/CanBoot/scripts/flash_can.py -d /dev/serial/by-id/usb-CanBoot_stm32f446xx* -f ~/klipper/out/klipper.bin
+sudo apt install ifupdown net-tools
+sudo mkdir -p /etc/network/interfaces.d/
 sudo tee /etc/network/interfaces.d/can0 <<EOF
 allow-hotplug can0
 iface can0 can static
