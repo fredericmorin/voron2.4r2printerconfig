@@ -133,7 +133,7 @@ Hook up EB2209 to your printer:
 - See DFU device show up in `lsusb`
 
 ```sh
-sudo dfu-util -a 0 -D ~/katapult-ebb/out/canboot.bin  --dfuse-address 0x08000000:force:mass-erase:leave -d 0483:df11
+sudo dfu-util -a 0 -D ~/katapult-ebb/out/katapult.bin  --dfuse-address 0x08000000:force:mass-erase:leave -d 0483:df11
 
 python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
