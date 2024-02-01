@@ -28,15 +28,15 @@ ln -s ~/printer_data/config/config/klipper-ebb_config  ~/klipper-ebb/.config
 
 # First Flash
 
-## CanBoot on Octopus v1.1
+## Katapult on Octopus v1.1
 
 ```sh
 sudo systemctl stop klipper
 
-git clone https://github.com/Arksine/CanBoot ~/CanBoot
-cd ~/CanBoot
+git clone https://github.com/Arksine/katapult ~/katapult
+cd ~/katapult
 make menuconfig
-#               CanBoot Configuration v0.0.1-41-gffd8ac6
+#               Katapult Configuration v0.0.1-62-g6a7ca81
 #      Micro-controller Architecture (STMicroelectronics STM32)  --->
 #      Processor model (STM32F446)  --->
 #      Build CanBoot deployment application (Do not build)  --->
@@ -51,17 +51,11 @@ make menuconfig
 make -j4
 ```
 
-Flash to octopus. Had a hard time enabling DFU mode on octopus.
-Supposedly you have to put jumper on boot0 and power cycle board
-while keeping usb connection alive.
-
-Finally got it to work using a stlink/v2 connected to SWD and spamming
-`st-flash erase` while releasing the octopus reset button just at the right moment.
-Only after that did DFU work.
+Flash to octopus. You have to put jumper on boot0 and press the reset button that is right next to the USB-C connector.
 
 Once you get DFU to work:
 ```sh
-sudo dfu-util -a 0 -D ~/CanBoot/out/canboot.bin  --dfuse-address 0x08000000:force:mass-erase:leave -d 0483:df11
+sudo dfu-util -a 0 -D ~/katapult/out/katapult.bin  --dfuse-address 0x08000000:force:mass-erase:leave -d 0483:df11
 ```
 
 ## Klipper on Octopus v1.1
@@ -86,7 +80,7 @@ make menuconfig
 #  (500000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
 make -j4
-python3 ~/CanBoot/scripts/flash_can.py -d /dev/serial/by-id/usb-CanBoot_stm32f446xx* -f ~/klipper/out/klipper.bin
+python3 ~/katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-katapult_stm32f446xx* -f ~/klipper/out/klipper.bin
 sudo apt install ifupdown net-tools
 sudo mkdir -p /etc/network/interfaces.d/
 sudo tee /etc/network/interfaces.d/can0 <<EOF
@@ -98,25 +92,25 @@ iface can0 can static
     pre-up ip link set can0 txqueuelen 1024
 EOF
 sudo ifup can0
-python3 ~/CanBoot/scripts/flash_can.py -i can0 -q
+python3 ~/katapult/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
 #  Checking for canboot nodes...
 #  Detected UUID: xxxxxxxxxxxx, Application: Klipper
 #  Query Complete
 ```
 
-## CanBoot on EBB SB2209
+## Katapult on EBB SB2209
 
 ```sh
 sudo systemctl stop klipper
 
-git clone https://github.com/Arksine/CanBoot ~/CanBoot-ebb
-cd ~/CanBoot-ebb
+git clone https://github.com/Arksine/katapult ~/katapult-ebb
+cd ~/katapult-ebb
 make menuconfig
-#               CanBoot Configuration v0.0.1-41-gffd8ac6
+#               Katapult Configuration v0.0.1-62-g6a7ca81
 #      Micro-controller Architecture (STMicroelectronics STM32)  --->
 #      Processor model (STM32G0B1)  --->
-#      Build CanBoot deployment application (Do not build)  --->
+#      Build Katapult deployment application (Do not build)  --->
 #      Clock Reference (8 MHz crystal)  --->
 #      Communication interface (CAN bus (on PB0/PB1))  --->
 #      Application start offset (8KiB offset)  --->
@@ -139,9 +133,9 @@ Hook up EB2209 to your printer:
 - See DFU device show up in `lsusb`
 
 ```sh
-sudo dfu-util -a 0 -D ~/CanBoot-ebb/out/canboot.bin  --dfuse-address 0x08000000:force:mass-erase:leave -d 0483:df11
+sudo dfu-util -a 0 -D ~/katapult-ebb/out/canboot.bin  --dfuse-address 0x08000000:force:mass-erase:leave -d 0483:df11
 
-python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -q
+python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
 #  Checking for canboot nodes...
 #  Detected UUID: yyyyyyyyyyyy, Application: CanBoot
@@ -170,8 +164,8 @@ make menuconfig
 #  (500000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
 make -j4
-python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
-python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -q
+python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
+python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
 #  Checking for canboot nodes...
 #  Detected UUID: yyyyyyyyyyyy, Application: Klipper
@@ -184,7 +178,7 @@ python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -q
 - https://github.com/akhamar/voron_canbus_octopus_sb2040#useful-tricks-to-be-able-to-update-an-octopus-11-in-usb-to-can-bridge
 - https://www.teamfdm.com/forums/topic/851-install-canboot-on-sb2040/#comment-5785
 - https://gist.github.com/jfryman/0c3827079e23d7bc55f9677d2c6b8bec
-
+- https://github.com/Arksine/katapult?tab=readme-ov-file#katapult-deployer
 
 
 # Update Firmware
