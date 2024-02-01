@@ -11,8 +11,8 @@ Printer hardware:
 Use Octopus as can bridge to can network
 
 Firmware:
-- Canboot serial on octopus
-- Canboot can on ebb
+- Katapult serial on octopus
+- Katapult can on ebb
 - Klipper usb to can on octopus
 - Klipper can on ebb
 
@@ -39,7 +39,7 @@ make menuconfig
 #               Katapult Configuration v0.0.1-62-g6a7ca81
 #      Micro-controller Architecture (STMicroelectronics STM32)  --->
 #      Processor model (STM32F446)  --->
-#      Build CanBoot deployment application (Do not build)  --->
+#      Build Katapult deployment application (Do not build)  --->
 #      Clock Reference (12 MHz crystal)  --->
 #      Communication interface (USB (on PA11/PA12))  --->
 #      Application start offset (32KiB offset)  --->
@@ -94,7 +94,7 @@ EOF
 sudo ifup can0
 python3 ~/katapult/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
-#  Checking for canboot nodes...
+#  Checking for katapult nodes...
 #  Detected UUID: xxxxxxxxxxxx, Application: Klipper
 #  Query Complete
 ```
@@ -137,8 +137,8 @@ sudo dfu-util -a 0 -D ~/katapult-ebb/out/katapult.bin  --dfuse-address 0x0800000
 
 python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
-#  Checking for canboot nodes...
-#  Detected UUID: yyyyyyyyyyyy, Application: CanBoot
+#  Checking for katapult nodes...
+#  Detected UUID: yyyyyyyyyyyy, Application: Katapult
 #  Detected UUID: xxxxxxxxxxxx, Application: Klipper
 #  Query Complete
 ```
@@ -167,7 +167,7 @@ make -j4
 python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
 python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
-#  Checking for canboot nodes...
+#  Checking for katapult nodes...
 #  Detected UUID: yyyyyyyyyyyy, Application: Klipper
 #  Detected UUID: xxxxxxxxxxxx, Application: Klipper
 #  Query Complete
@@ -192,8 +192,8 @@ make olddefconfig
 make -j4
 
 sudo systemctl stop klipper
-python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -r
-python3 ~/CanBoot-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -f ~/klipper-ebb/out/klipper.bin
+python3 ~/Katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -r
+python3 ~/Katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -f ~/klipper-ebb/out/klipper.bin
 sudo systemctl start klipper
 ```
 
@@ -206,8 +206,8 @@ make olddefconfig
 make -j4
 
 sudo systemctl stop klipper
-python3 ~/CanBoot/scripts/flash_can.py -i can0 -u 3c57b3d9e9aa -r
-python3 ~/CanBoot/scripts/flash_can.py -d /dev/serial/by-id/usb-CanBoot_stm32f446xx* -f ~/klipper/out/klipper.bin
+python3 ~/Katapult/scripts/flash_can.py -i can0 -u 3c57b3d9e9aa -r
+python3 ~/Katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-Katapult_stm32f446xx* -f ~/klipper/out/klipper.bin
 sudo systemctl start klipper
 ```
 
