@@ -192,9 +192,11 @@ make olddefconfig
 make -j4
 
 sudo systemctl stop klipper
-python3 ~/Katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -r
-python3 ~/Katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -f ~/klipper-ebb/out/klipper.bin
+~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -r
+~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -f ~/klipper-ebb/out/klipper.bin
 sudo systemctl start klipper
+
+~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 ```
 
 ## Klipper on Octopus v1.1
@@ -206,9 +208,11 @@ make olddefconfig
 make -j4
 
 sudo systemctl stop klipper
-python3 ~/Katapult/scripts/flash_can.py -i can0 -u 3c57b3d9e9aa -r
-python3 ~/Katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-Katapult_stm32f446xx* -f ~/klipper/out/klipper.bin
+~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -i can0 -u 3c57b3d9e9aa -r
+~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-*stm32f446xx* -f ~/klipper/out/klipper.bin
 sudo systemctl start klipper
+
+~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -i can0 -q
 ```
 
 
