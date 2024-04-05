@@ -77,7 +77,7 @@ make menuconfig
 #      Communication interface (USB to CAN bus bridge (USB on PA11/PA12))  --->
 #      CAN bus interface (CAN bus (on PD0/PD1))  --->
 #      USB ids  --->
-#  (500000) CAN bus speed
+#  (1000000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
 make -j4
 python3 ~/katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-katapult_stm32f446xx* -f ~/klipper/out/klipper.bin
@@ -86,9 +86,9 @@ sudo mkdir -p /etc/network/interfaces.d/
 sudo tee /etc/network/interfaces.d/can0 <<EOF
 allow-hotplug can0
 iface can0 can static
-    bitrate 500000
+    bitrate 1000000
     up ifconfig \$IFACE txqueuelen 1024
-    pre-up ip link set can0 type can bitrate 500000
+    pre-up ip link set can0 type can bitrate 1000000
     pre-up ip link set can0 txqueuelen 1024
 EOF
 sudo ifup can0
@@ -114,7 +114,7 @@ make menuconfig
 #      Clock Reference (8 MHz crystal)  --->
 #      Communication interface (CAN bus (on PB0/PB1))  --->
 #      Application start offset (8KiB offset)  --->
-#  (500000) CAN bus speed
+#  (1000000) CAN bus speed
 #  ()  GPIO pins to set on bootloader entry
 #  [*] Support bootloader entry on rapid double click of reset button
 #  [ ] Enable bootloader entry on button (or gpio) state
@@ -161,7 +161,7 @@ make menuconfig
 #      Bootloader offset (8KiB bootloader)  --->
 #      Clock Reference (8 MHz crystal)  --->
 #      Communication interface (CAN bus (on PB0/PB1))  --->
-#  (500000) CAN bus speed
+#  (1000000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
 make -j4
 python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
@@ -189,7 +189,7 @@ python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 cd ~/klipper-ebb/
 git pull
 make olddefconfig
-make -j4
+make -j`nproc`
 
 sudo systemctl stop klipper
 ~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -r
@@ -205,7 +205,7 @@ sudo systemctl start klipper
 cd ~/klipper/
 git pull
 make olddefconfig
-make -j4
+make -j`nproc`
 
 sudo systemctl stop klipper
 ~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -i can0 -u 3c57b3d9e9aa -r
