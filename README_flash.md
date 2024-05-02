@@ -80,7 +80,7 @@ make menuconfig
 #  (1000000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
 make -j4
-python3 ~/katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-katapult_stm32f446xx* -f ~/klipper/out/klipper.bin
+python3 ~/katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-katapult_stm32f446xx* -f ~/klipper/out/klipper.elf
 sudo apt install ifupdown net-tools
 sudo mkdir -p /etc/network/interfaces.d/
 sudo tee /etc/network/interfaces.d/can0 <<EOF
@@ -164,7 +164,7 @@ make menuconfig
 #  (1000000) CAN bus speed
 #  ()  GPIO pins to set at micro-controller startup
 make -j4
-python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.bin
+python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u yyyyyyyyyyyy -f ~/klipper-ebb/out/klipper.elf
 python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
 #  Resetting all bootloader node IDs...
 #  Checking for katapult nodes...
@@ -193,7 +193,7 @@ make -j`nproc`
 
 sudo systemctl stop klipper
 ~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -r
-~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -f ~/klipper-ebb/out/klipper.bin
+~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -u c5f03e47651b -f ~/klipper-ebb/out/klipper.elf
 sudo systemctl start klipper
 
 ~/klippy-env/bin/python3 ~/katapult-ebb/scripts/flash_can.py -i can0 -q
@@ -209,7 +209,7 @@ make -j`nproc`
 
 sudo systemctl stop klipper
 ~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -i can0 -u 3c57b3d9e9aa -r
-~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-*stm32f446xx* -f ~/klipper/out/klipper.bin
+~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -d /dev/serial/by-id/usb-*stm32f446xx* -f ~/klipper/out/klipper.elf
 sudo systemctl start klipper
 
 ~/klippy-env/bin/python3 ~/katapult/scripts/flash_can.py -i can0 -q
